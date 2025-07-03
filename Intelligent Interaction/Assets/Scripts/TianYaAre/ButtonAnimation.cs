@@ -6,13 +6,20 @@ namespace TianYaAre.Ui
     {
         public float animation_show_time = 0.5f; // 进入动画时间
         public float animation_hide_time = 0.5f; // 退出动画时间
+        private float animation_late_show_time = 0f; // 延迟显示动画时间
 
         private float animation_used_time = 0f; // 已使用的动画时间
         public int animation_state = 0; // 动画状态：0 - 无，1 - 进入动画，2 - 退出动画
 
         public bool is_show = true; // 是否显示
+        public bool late_show = true; // 是否延迟显示
+        
 
         private Vector2 position; // 按钮位置
+
+        static int active_button_count = 0; // 活动按钮计数器
+        int id; // 按钮ID
+
 
         void Reset()
         {
@@ -28,6 +35,13 @@ namespace TianYaAre.Ui
 
         void Start()
         {
+            id = active_button_count; // 设置按钮ID为当前活动按钮计数器的值
+            active_button_count++;
+            if (late_show)
+            {
+                animation_late_show_time += (id)*0.25f;
+            }
+
             if (GetComponent<CanvasGroup>() is null)
             {
                 Debug.LogError("CanvasGroup component is missing on the GameObject. Please add a CanvasGroup component to enable animations.");
@@ -44,38 +58,49 @@ namespace TianYaAre.Ui
             //}
 
         }
-
         void Update()
         {
             if (animation_state != 0)
             {
                 if (animation_state == 1)
                 {
-                    //线性插值动画
+                    // 线性插值动画
                     animation_used_time += Time.deltaTime;
-                    if (animation_used_time >= animation_show_time)
+                    if (animation_used_time > 0)
                     {
-                        animation_used_time = animation_show_time; // 确保不超过动画时间
-                        animation_state = 0; // 动画完成，重置状态
+                        if (animation_used_time >= animation_show_time)
+                        {
+                            animation_used_time = animation_show_time; // 确保不超过动画时间
+                            animation_state = 0; // 动画完成，重置状态
+                        }
+                        float t_linear = animation_used_time / animation_show_time; // 线性插值系数
+                                                                                    // 应用缓出效果：t 的平方根，使动画开始时快，结束时慢
+                        float t_eased = Mathf.Sqrt(t_linear);
+
+                        canvasGroup.alpha = Mathf.Lerp(0f, 1f, t_eased); // 透明度从0到1
+                        GetComponent<RectTransform>().localPosition = Vector2.Lerp(new Vector2(position.x - 100, position.y), position, t_eased); // 从左侧移动到原位置
                     }
-                    float t = animation_used_time / animation_show_time; // 计算插值系数
-                    canvasGroup.alpha = Mathf.Lerp(0f, 1f, t); // 透明度从0到1
-                    GetComponent<RectTransform>().localPosition = Vector2.Lerp(new Vector2(position.x - 100, position.y), position, t); // 从左侧移动到原位置
                 }
                 else if (animation_state == 2)
                 {
-                    //线性插值动画
+                    // 线性插值动画
                     animation_used_time += Time.deltaTime;
-                    if (animation_used_time >= animation_hide_time)
+                    if (animation_used_time > 0)
                     {
-                        animation_used_time = animation_hide_time; // 确保不超过动画时间
-                        animation_state = 0; // 动画完成，重置状态
-                        canvasGroup.alpha = 0f; // 设置透明度为0
-                        gameObject.SetActive(false); // 隐藏游戏对象
+                        if (animation_used_time >= animation_hide_time)
+                        {
+                            animation_used_time = animation_hide_time; // 确保不超过动画时间
+                            animation_state = 0; // 动画完成，重置状态
+                            canvasGroup.alpha = 0f; // 设置透明度为0
+                            gameObject.SetActive(false); // 隐藏游戏对象
+                        }
+                        float t_linear = animation_used_time / animation_hide_time; // 线性插值系数
+                                                                                    // 应用缓入效果：t 的平方，使动画开始时慢，结束时快
+                        float t_eased = t_linear * t_linear;
+
+                        canvasGroup.alpha = Mathf.Lerp(1f, 0f, t_eased); // 透明度从1到0
+                        GetComponent<RectTransform>().localPosition = Vector2.Lerp(position, new Vector2(position.x + 100, position.y), t_eased); // 从原位置移动到右侧
                     }
-                    float t = animation_used_time / animation_hide_time; // 计算插值系数
-                    canvasGroup.alpha = Mathf.Lerp(1f, 0f, t); // 透明度从1到0
-                    GetComponent<RectTransform>().localPosition = Vector2.Lerp(position, new Vector2(position.x + 100, position.y), t); // 从原位置移动到右侧
                 }
             }
             else
@@ -84,9 +109,14 @@ namespace TianYaAre.Ui
             }
         }
 
+        private void OnDestroy()
+        {
+            if(id!=-1) active_button_count--;
+        }
+
         void Show()
         {
-            animation_used_time = 0;
+            animation_used_time = -animation_late_show_time;
             animation_state = 1; // 设置为进入动画状态
             position = GetComponent<RectTransform>().localPosition; // 获取初始位置
             GetComponent<RectTransform>().localPosition = new Vector2(position.x - 100, position.y); // 初始位置向左偏移
@@ -95,7 +125,7 @@ namespace TianYaAre.Ui
 
         void Hide()
         {
-            animation_used_time = 0;
+            animation_used_time = -animation_late_show_time;
             animation_state = 2; // 设置为进入动画状态
             position = GetComponent<RectTransform>().localPosition; // 获取初始位置
         }
@@ -108,6 +138,8 @@ namespace TianYaAre.Ui
             if (father) Destroy(father_obj);
             //延迟销毁按钮对象
             Destroy(gameObject, animation_hide_time); // 在动画结束后销毁按钮对象
+            id = -1;
+            active_button_count--;
         }
     }
 }
