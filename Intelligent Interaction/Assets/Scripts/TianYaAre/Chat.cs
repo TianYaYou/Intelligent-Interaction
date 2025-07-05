@@ -48,6 +48,13 @@ namespace TianYaAre.MainScene
     }
 }
 
+
+public struct BeforeChatData
+{
+    public string return_chat;
+    public string chat;
+}
+
 public class ChatDataList
 {
     public string return_chat;
@@ -60,7 +67,6 @@ public class ChatData
 
 public interface IChatDataInterface
 {
-    public SaveData saveData { get; set; }
 
     /// <summary>
     /// 游戏开始时调用

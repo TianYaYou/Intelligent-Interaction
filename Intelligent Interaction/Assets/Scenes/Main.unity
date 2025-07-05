@@ -128,6 +128,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 134019846}
+  - component: {fileID: 134019847}
   m_Layer: 0
   m_Name: GameObject
   m_TagString: Untagged
@@ -150,6 +151,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &134019847
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 134019845}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b954dbbc17fce24d844454c8c8eff4e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  apiKey: sk-f8a47679216d47498042d31338ef1f3f
+  apiUrl: https://api.deepseek.com/chat/completions
+  userPrompt: "\u4F60\u597D\uFF0C\u4F60\u73B0\u5728\u662F\u4E00\u53EA\u732B\u5A18~\u7ED9\u6211\u8BB2\u4E2A\u6545\u4E8B\u597D\u5417\uFF1F"
 --- !u!1 &153800381
 GameObject:
   m_ObjectHideFlags: 0

@@ -5,7 +5,6 @@ namespace InkBai.MainScene
 {
     public class ChatMain : MonoBehaviour, IChatDataInterface
     {
-        public SaveData saveData { get; set; }
         public ChatDataList StartChat()
         {
             ChatDataList chatDataList = new ChatDataList();

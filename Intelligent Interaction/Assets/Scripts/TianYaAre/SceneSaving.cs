@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace TianYaAre.MainScene
 {
@@ -8,7 +9,8 @@ namespace TianYaAre.MainScene
     }
 }
 
-public class SaveData
+public static class SaveData
 {
-    public int role_indix = 0;
+    static public List<BeforeChatData> beforeChatData = new List< BeforeChatData>();
+    static public int role_indix = 0;
 }
