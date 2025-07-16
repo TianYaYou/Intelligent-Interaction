@@ -1,10 +1,14 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using TianYaAre.MainScene;
 
 namespace InkBai.MainScene
 {
     public class ChatMain : MonoBehaviour, IChatDataInterface
     {
+        public Chat chat;
+        public ChatAiConnectApi connectApi;
+
         public ChatDataList StartChat()
         {
             ChatDataList chatDataList = new ChatDataList();
@@ -19,6 +23,7 @@ namespace InkBai.MainScene
         }
         public ChatDataList PalyerChange(int ChangeIndix)
         {
+
             ChatDataList chatDataList = new ChatDataList();
             chatDataList.return_chat = $"你选择了第{ChangeIndix}选项喵~！\n请选择你想要进行的对话：";
             chatDataList.list = new List<ChatData>
@@ -32,6 +37,7 @@ namespace InkBai.MainScene
         private void Start()
         {
             TianYaAre.MainScene.Chat.Active_Instance = this;
+            //F: \Unity项目\Intelligent - Interaction\Intelligent Interaction\Assets\StreamingAssets\SystemPrompts\1.txt
         }
     }
 }

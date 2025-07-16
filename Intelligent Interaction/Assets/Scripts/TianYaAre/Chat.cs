@@ -12,6 +12,10 @@ namespace TianYaAre.MainScene
         public GameObject button_preferb;
         public GameObject chatPanel;
         public GameObject chatButtonFather;
+
+        public bool waiting_for_result = false;
+        public bool set_gui = true;
+
         // Start is called once before the first execution of Update after the MonoBehaviour is created
         void Start()
         {
@@ -22,28 +26,46 @@ namespace TianYaAre.MainScene
             }
         }
 
+        BeforeChatData BeforeChatDataTemp = new BeforeChatData();
+
+        private void Update()
+        {
+            if (set_gui)
+            {
+                if (!waiting_for_result)
+                {
+                    chatPanel.GetComponentInChildren<TextMeshProUGUI>().text = chatDataList.return_chat;
+                    BeforeChatDataTemp.return_chat = chatDataList.return_chat;
+                    foreach (Transform child in chatButtonFather.transform)
+                    {
+                        if (child.GetComponentInChildren<ButtonAnimation>() is not null)
+                        {
+                            child.GetComponentInChildren<ButtonAnimation>().DestroyIt(true);
+                        }
+                        else Destroy(child.gameObject);
+                    }
+                    for (int i = 0; i < chatDataList.list.Count; i++)
+                    {
+                        GameObject button = Instantiate(button_preferb, chatButtonFather.transform);
+                        button.GetComponentInChildren<TextMeshProUGUI>().text = chatDataList.list[i].data;
+                        int index = i;
+                        button.GetComponentInChildren<UnityEngine.UI.Button>().onClick.AddListener(() =>
+                        {
+                            chatDataList = Active_Instance.PalyerChange(index);
+                            BeforeChatDataTemp.chat = chatDataList.list[i].data;
+                            SaveData.beforeChatData.Add(BeforeChatDataTemp);
+                            waiting_for_result = true;
+                            SetGui();
+                        });
+                    }
+                    set_gui = false;
+                }
+            }
+        }
+
         void SetGui()
         {
-            chatPanel.GetComponentInChildren<TextMeshProUGUI>().text = chatDataList.return_chat;
-            foreach (Transform child in chatButtonFather.transform)
-            {
-                if (child.GetComponentInChildren<ButtonAnimation>() is not null)
-                {
-                    child.GetComponentInChildren<ButtonAnimation>().DestroyIt(true);
-                }
-                else Destroy(child.gameObject);
-            }
-            for (int i = 0; i < chatDataList.list.Count; i++)
-            {
-                GameObject button = Instantiate(button_preferb, chatButtonFather.transform);
-                button.GetComponentInChildren<TextMeshProUGUI>().text = chatDataList.list[i].data;
-                int index = i;
-                button.GetComponentInChildren<UnityEngine.UI.Button>().onClick.AddListener(() =>
-                {
-                    chatDataList = Active_Instance.PalyerChange(index);
-                    SetGui();
-                });
-            }
+            set_gui = true;
         }
     }
 }
@@ -64,6 +86,7 @@ public class ChatData
 {
     public string data;
 }
+
 
 public interface IChatDataInterface
 {

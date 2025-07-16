@@ -165,7 +165,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   apiKey: sk-f8a47679216d47498042d31338ef1f3f
   apiUrl: https://api.deepseek.com/chat/completions
-  userPrompt: "\u4F60\u597D\uFF0C\u4F60\u73B0\u5728\u662F\u4E00\u53EA\u732B\u5A18~\u7ED9\u6211\u8BB2\u4E2A\u6545\u4E8B\u597D\u5417\uFF1F"
+  userPrompt: "\u4F60\u597D"
+  ready: 1
+  result: 
 --- !u!1 &153800381
 GameObject:
   m_ObjectHideFlags: 0
@@ -809,6 +811,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5629c82d0fe28947894f8fefcec0438, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  chat: {fileID: 1985793988}
+  connectApi: {fileID: 134019847}
 --- !u!114 &1985793988
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -824,6 +828,8 @@ MonoBehaviour:
   button_preferb: {fileID: 8751100439313484328, guid: cc71f10736abac24488ef6c934cfef06, type: 3}
   chatPanel: {fileID: 1628229591}
   chatButtonFather: {fileID: 972647951}
+  waiting_for_result: 0
+  set_gui: 1
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
