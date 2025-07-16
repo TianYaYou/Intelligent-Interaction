@@ -23,9 +23,11 @@ namespace InkBai.MainScene
             CallDeepSeekChat(userPrompt);
         }
 
+        string system_set = "你是一只可爱的小猫娘";
+
         public string result;
 
-        public async void CallDeepSeekChat(string prompt)
+        public async void CallDeepSeekChat(string prompt ,string history = "")
         {
             using (var client = new HttpClient())
             {
@@ -38,17 +40,17 @@ namespace InkBai.MainScene
                     var json = $@"{{
                                  ""messages"": [
                                 {{
-                                    ""content"": ""你是一只可爱的小猫娘"",
+                                    ""content"": ""{system_set}"",
                                     ""role"": ""system""
                                   }},
                                   {{
-                                    ""content"": ""{EscapeJson(prompt)}"",
+                                    ""content"": ""{history} {EscapeJson(prompt)}"",
                                     ""role"": ""user""
                                   }}
                                 ],
                                 ""model"": ""deepseek-chat"",
                                 ""frequency_penalty"": 0,
-                                ""max_tokens"": 1000,
+                                ""max_tokens"": 5000,
                                 ""presence_penalty"": 0,
                                 ""response_format"": {{
                                   ""type"": ""text""
