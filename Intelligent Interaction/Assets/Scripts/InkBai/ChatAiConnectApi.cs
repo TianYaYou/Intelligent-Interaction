@@ -15,7 +15,7 @@ namespace InkBai.MainScene
         public string apiUrl = "https://api.deepseek.com/chat/completions";
 
         [TextArea(2, 5)]
-        public string userPrompt = "Hi";
+        public string userPrompt = "给我讲个故事";
 
         private void Start()
         {
@@ -48,7 +48,7 @@ namespace InkBai.MainScene
                                 ],
                                 ""model"": ""deepseek-chat"",
                                 ""frequency_penalty"": 0,
-                                ""max_tokens"": 1000,
+                                ""max_tokens"": 5000,
                                 ""presence_penalty"": 0,
                                 ""response_format"": {{
                                   ""type"": ""text""
@@ -56,7 +56,7 @@ namespace InkBai.MainScene
                                 ""stop"": null,
                                 ""stream"": false,
                                 ""stream_options"": null,
-                                ""temperature"": 1,
+                                ""temperature"": 0.8,
                                 ""top_p"": 1,
                                 ""tools"": null,
                                 ""tool_choice"": ""none"",
