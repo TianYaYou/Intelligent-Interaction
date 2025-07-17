@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using TianYaAre.Ui;
 using TMPro;
 using UnityEngine;
-using TianYaAre.Ui;
 
 namespace TianYaAre.MainScene
 {
@@ -16,13 +17,15 @@ namespace TianYaAre.MainScene
         public bool waiting_for_result = false;
         public bool set_gui = true;
 
+        Task<ChatDataList> awaitChatDataList;
+
         // Start is called once before the first execution of Update after the MonoBehaviour is created
         void Start()
         {
             if (Active_Instance is not null)
             {
-                chatDataList = Active_Instance.StartChat();
-                SetGui();
+                waiting_for_result = true;
+                awaitChatDataList = Active_Instance.StartChat();
             }
         }
 
@@ -32,8 +35,13 @@ namespace TianYaAre.MainScene
         {
             if (set_gui)
             {
-                if (!waiting_for_result)
+                if (waiting_for_result) 
                 {
+                    
+                }
+                else
+                {
+                    chatDataList = awaitChatDataList.Result;
                     chatPanel.GetComponentInChildren<TextMeshProUGUI>().text = chatDataList.return_chat;
                     BeforeChatDataTemp.return_chat = chatDataList.return_chat;
                     foreach (Transform child in chatButtonFather.transform)
@@ -51,9 +59,9 @@ namespace TianYaAre.MainScene
                         int index = i;
                         button.GetComponentInChildren<UnityEngine.UI.Button>().onClick.AddListener(() =>
                         {
-                            chatDataList = Active_Instance.PalyerChange(index);
-                            BeforeChatDataTemp.chat = chatDataList.list[i].data;
                             SaveData.beforeChatData.Add(BeforeChatDataTemp);
+                            BeforeChatDataTemp.chat = chatDataList.list[index].data;
+                            awaitChatDataList = Active_Instance.PalyerChange(index, BeforeChatDataTemp.chat);
                             waiting_for_result = true;
                             SetGui();
                         });
@@ -95,12 +103,12 @@ public interface IChatDataInterface
     /// 游戏开始时调用
     /// </summary>
     /// <returns></returns>
-    public ChatDataList StartChat();
+    public Task<ChatDataList> StartChat();
 
     /// <summary>
     /// 用户点击时调用
     /// </summary>
     /// <param name="ChangeIndix">点击的按钮索引</param>
     /// <returns></returns>
-    public ChatDataList PalyerChange(int ChangeIndix);
+    public Task<ChatDataList> PalyerChange(int ChangeIndix, string change_text);
 }

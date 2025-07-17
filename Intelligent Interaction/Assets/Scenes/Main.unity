@@ -166,6 +166,7 @@ MonoBehaviour:
   apiKey: sk-f8a47679216d47498042d31338ef1f3f
   apiUrl: https://api.deepseek.com/chat/completions
   userPrompt: "\u4F60\u597D"
+  prompt: 
   ready: 1
   result: 
 --- !u!1 &153800381
@@ -433,8 +434,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 18
-  m_fontSizeBase: 18
+  m_fontSize: 25
+  m_fontSizeBase: 25
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -516,10 +517,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1985793986}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.0014648, y: -93.964}
-  m_SizeDelta: {x: 235.15, y: 372.4286}
+  m_AnchorMin: {x: 0, y: 0.5}
+  m_AnchorMax: {x: 1, y: 0.5}
+  m_AnchoredPosition: {x: 0.000015258789, y: -99.999}
+  m_SizeDelta: {x: 0, y: 500}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &972647953
 MonoBehaviour:
@@ -580,10 +581,10 @@ RectTransform:
   - {fileID: 940817135}
   m_Father: {fileID: 1985793986}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 117.575, y: -50}
-  m_SizeDelta: {x: 235.15, y: 100}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 250}
+  m_SizeDelta: {x: 0, y: -500}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1628229593
 MonoBehaviour:
@@ -796,8 +797,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 235.15, y: 384.5}
+  m_AnchoredPosition: {x: 0, y: 1.1065}
+  m_SizeDelta: {x: 350, y: 700}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1985793987
 MonoBehaviour:
