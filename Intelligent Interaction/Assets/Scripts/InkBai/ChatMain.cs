@@ -14,7 +14,6 @@ namespace InkBai.MainScene
         public async Task<ChatDataList> StartChat()
         {
             connectApi.SetPromit(Application.streamingAssetsPath + @$"\SystemPrompts\{SaveData.role_indix}.txt");
-            SaveData.beforeChatData = new List<BeforeChatData>();
             connectApi.CallDeepSeekChat("");
             ChatDataList chatDataList = new ChatDataList();
 

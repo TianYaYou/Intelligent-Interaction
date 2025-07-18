@@ -45,6 +45,8 @@ namespace TianYaAre.Ui
             if (GetComponent<CanvasGroup>() is null)
             {
                 Debug.LogError("CanvasGroup component is missing on the GameObject. Please add a CanvasGroup component to enable animations.");
+                // 如果没有 CanvasGroup 组件，则添加一个
+                CanvasGroup canvasGroup = gameObject.AddComponent<CanvasGroup>();
                 return;
             }
             // 初始化 CanvasGroup 的透明度和交互性
