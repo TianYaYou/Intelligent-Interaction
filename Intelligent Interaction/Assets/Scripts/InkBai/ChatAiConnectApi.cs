@@ -19,14 +19,6 @@ namespace InkBai.MainScene
         [TextArea(2, 5)]
         public string userPrompt = "给我讲个故事";
 
-        private void Start()
-        {
-
-            SetPromit(Application.streamingAssetsPath + @"\SystemPrompts\1.txt");
-            // 示例：启动时自动调用
-            CallDeepSeekChat(userPrompt);
-        }
-
         public string prompt;
 
         public bool ready = true;
@@ -34,6 +26,8 @@ namespace InkBai.MainScene
         public string result;
 
         public ReturnChatData resultData = new ReturnChatData();
+
+        public GameObject UiMask;
 
         public string result_text_only
         {
@@ -150,14 +144,14 @@ namespace InkBai.MainScene
                     }
                      */
 
-
+                    UiMask?.SetActive(true);
                     request.Content = new StringContent(json, Encoding.UTF8, "application/json");
-
                     var response = await client.SendAsync(request);
                     response.EnsureSuccessStatusCode();
                     result = await response.Content.ReadAsStringAsync();
 
                     SetResultData();
+                    UiMask?.SetActive(false);
                     ready = true;
                     Debug.Log($"DeepSeek 响应: {result}");
                 }

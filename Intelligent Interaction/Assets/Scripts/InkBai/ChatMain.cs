@@ -13,6 +13,7 @@ namespace InkBai.MainScene
 
         public async Task<ChatDataList> StartChat()
         {
+            connectApi.SetPromit(Application.streamingAssetsPath + @$"\SystemPrompts\{SaveData.role_indix}.txt");
             SaveData.beforeChatData = new List<BeforeChatData>();
             connectApi.CallDeepSeekChat("");
             ChatDataList chatDataList = new ChatDataList();
@@ -35,15 +36,6 @@ namespace InkBai.MainScene
                 chatDataList.list = new List<ChatData>();
                 return chatDataList;
             }
-            /*
-            chatDataList.return_chat = "欢迎来到喵~！\n请选择你想要进行的对话：";
-            chatDataList.list = new List<ChatData>
-            {
-                new ChatData { data = "你好" },
-                new ChatData { data = "再见" },
-                new ChatData { data = "你是谁？" }
-            };
-            */
             return chatDataList;
         }
         public async Task<ChatDataList> PalyerChange(int ChangeIndix, string change_text)
@@ -69,21 +61,12 @@ namespace InkBai.MainScene
                 chatDataList.list = new List<ChatData>();
                 return chatDataList;
             }
-            /*
-            chatDataList.return_chat = $"你选择了第{ChangeIndix}选项喵~！\n请选择你想要进行的对话：";
-            chatDataList.list = new List<ChatData>
-            {
-                new ChatData { data = "喵，好可爱" },
-                new ChatData { data = "天涯最可爱了" },
-                new ChatData { data = "喵？" }
-            }
-            */
             return chatDataList;
         }
         private void Start()
         {
+
             TianYaAre.MainScene.Chat.Active_Instance = this;
-            //F: \Unity项目\Intelligent - Interaction\Intelligent Interaction\Assets\StreamingAssets\SystemPrompts\1.txt
         }
     }
 }
