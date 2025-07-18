@@ -8,6 +8,20 @@ namespace TianYaAre.MainScene
     public class SceneSaving : MonoBehaviour
     {
         public static string load_path = "";
+
+        /// <summary>
+        /// 是否是加载存档
+        /// </summary>
+        public static bool change_from_loder = false;
+
+        private void Start()
+        {
+            if (change_from_loder)
+            {
+                LoadAll();
+            }
+        }
+
         public void SaveAll()
         {
             //在Assets/StreamingAssets/SceneSaving/<日期 y-m-d-h-m-t>.json新建一个文件
@@ -67,6 +81,15 @@ namespace TianYaAre.MainScene
             {
                 Debug.LogError($"加载数据失败: {e.Message}");
             }
+        }
+        public void ReturnToMain()
+        {
+            change_from_loder = false; // 重置加载状态
+            load_path = ""; // 清空加载路径
+            SaveData.beforeChatData.Clear(); // 清空保存数据
+            SaveData.role_indix = 1; // 重置角色索引
+            //返回主场景
+            UnityEngine.SceneManagement.SceneManager.LoadScene("Main");
         }
     }
 
